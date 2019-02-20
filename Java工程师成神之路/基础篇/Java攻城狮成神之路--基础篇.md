@@ -1,4 +1,4 @@
-[TOC]
+[toc]
 
 # Java攻城狮成神之路(基础篇)
 
@@ -127,7 +127,7 @@ int num = 10;
 String str = "hello";
 ```
 
-![1](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/1.png)
+![1](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/1.png)
 
 > 如图所示，num是基本类型，值就直接保存在变量中。而str是引用类型，变量中保存的只是实际对象的地址。一般称这种变量为"引用"，引用指向实际对象，实际对象中保存着内容。
 
@@ -142,7 +142,7 @@ str = "java";
 > 对于引用类型 str，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。但是原来的对象不会被改变（重要）。
 > 如上图所示，"hello" 字符串对象没有被改变。（没有被任何引用所指向的对象是垃圾，会被垃圾回收器回收）
 
-![2](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/2.png)
+![2](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/2.png)
 
 **3、调用方法时发生了什么？参数传递基本上就是赋值操作。**
 
@@ -178,19 +178,19 @@ foo(sb); // sb 没有被改变，还是 "iphone"。
 
 下面是第三个例子的图解：
 
-![3](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/3.png)
+![3](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/3.png)
 
 builder.append("4")之后
 
-![4](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/4.png)
+![4](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/4.png)
 
 下面是第四个例子的图解：
 
-![5](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/5.png)
+![5](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/5.png)
 
 builder = new StringBuilder("ipad"); 之后
 
-![6](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/值传递与引用传递的详解/6.png)
+![6](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/6.png)
 
 转自——[Intopass](https://www.zhihu.com/people/intopass)
 
