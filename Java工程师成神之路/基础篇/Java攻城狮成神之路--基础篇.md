@@ -274,13 +274,13 @@ builder = new StringBuilder("ipad"); 之后
 
   > 1位符号位，8位指数，23位小数
 
-![单精度](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/基本数据类型/单精度.jpg)
+![单精度](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/1%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2%E3%80%81%E5%8D%95%E7%B2%BE%E5%BA%A6%E5%92%8C%E5%8F%8C%E7%B2%BE%E5%BA%A6/%E5%8D%95%E7%B2%BE%E5%BA%A6.jpg)
 
 - 双精度
 
   > 1位符号位，11位指数，52位小数
 
-![双精度](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/基本数据类型/双精度.jpg)
+![双精度](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/1%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/2%E3%80%81%E5%8D%95%E7%B2%BE%E5%BA%A6%E5%92%8C%E5%8F%8C%E7%B2%BE%E5%BA%A6/%E5%8F%8C%E7%B2%BE%E5%BA%A6.jpg)
 
 
 
@@ -495,17 +495,17 @@ public class Main {
 
 - 声明一个字符串：`String s = “abcd”;`
 
-  ![1](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/String/字符串的不可变性/1.jpeg)
+  ![1](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/3%E3%80%81String/1.jpeg)
 
 - 将一个字符串变量分配给另一个字符串变量：`String s2 = s;` 
 
   > s2储存了一个相同的引用值，因为它是同一个字符串对象。
 
-  ![2](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/String/字符串的不可变性/2.jpeg)
+  ![2](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/3%E3%80%81String/2.jpeg)
 
 - 合并字符串”ef“到s: `s = s.concat("ef");`
 
-  ![3](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/String/字符串的不可变性/3.jpeg)
+  ![3](https://github.com/GooderYan/toBeTopJavaer/blob/master/Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E6%88%90%E7%A5%9E%E4%B9%8B%E8%B7%AF/%E5%9F%BA%E7%A1%80%E7%AF%87/%E7%9B%B8%E5%85%B3%E5%9B%BE%E7%89%87/Java%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/3%E3%80%81String/3.jpeg)
 
 总结:
 
