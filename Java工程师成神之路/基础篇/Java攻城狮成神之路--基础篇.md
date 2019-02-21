@@ -39,6 +39,25 @@ Table of Contents
          * [6、switch中对String的支持](#6switch中对string的支持)
          * [7、==和equals()方法的区别](#7和equals方法的区别)
          * [8、字符串常量池](#8字符串常量池)
+                     * [补充：字符串常量池是什么？](#补充字符串常量池是什么)
+            * [补充：字符串常量池里放什么？](#补充字符串常量池里放什么)
+         * [9、Class常量池](#9class常量池)
+            * [补充：什么是字面量和符号引用？](#补充什么是字面量和符号引用)
+         * [10、运行时常量池](#10运行时常量池)
+      * [集合类](#集合类)
+         * [1、常用集合类的使用总结](#1常用集合类的使用总结)
+            * [1、集合体系结构图](#1集合体系结构图)
+            * [2、Collection中的常用功能](#2collection中的常用功能)
+            * [3、迭代器](#3迭代器)
+            * [4、泛型](#4泛型)
+            * [5、List序列](#5list序列)
+               * [1、List特有方法](#1list特有方法)
+               * [2、List的常用子类](#2list的常用子类)
+               * [3、Set集合及其常用子类](#3set集合及其常用子类)
+               * [4、Map集合及其子类](#4map集合及其子类)
+      * [2、集合间的区别与总结](#2集合间的区别与总结)
+      * [3、Collections工具类](#3collections工具类)
+         * [1、Collection与Collections的区别](#1collection与collections的区别)
 # Java攻城狮成神之路(基础篇)
 
 # 面向对象
@@ -636,7 +655,301 @@ public class StringTest {
 原文链接： [xyzws](http://www.xyzws.com/Javafaq/what-is-string-literal-pool/3) 翻译： [ImportNew.com ](http://www.importnew.com/)- [lumeng689](http://www.importnew.com/author/lumeng689)
 译文链接： <http://www.importnew.com/10756.html>
 
+#### 补充：字符串常量池是什么？
 
+- 在HotSpot VM里实现的string pool功能的是一个StringTable类，它是一个Hash表，默认值大小长度是1009；这个StringTable在每个HotSpot VM的实例只有一份，被所有的类共享。字符串常量由一个一个字符组成，放在了StringTable上。
+- 在JDK6.0中，StringTable的长度是固定的，长度就是1009，因此如果放入String Pool中的String非常多，就会造成hash冲突，导致链表过长，当调用String#intern()时会需要到链表上一个一个找，从而导致性能大幅度下降
+- 在JDK7.0中，StringTable的长度可以通过参数指定：
+
+```java
+-XX:StringTableSize=66666
+```
+
+#### 补充：字符串常量池里放什么？
+
+- 在JDK6.0及之前版本中，String Pool里放的都是字符串常量；
+- 在JDK7.0中，由于String#intern()发生了改变，因此String Pool中也可以存放放于堆内的字符串对象的引用。
+- 字符串常量池中的字符串只存在一份！ 
+
+转自——[zhuminChosen](https://blog.csdn.net/zm13007310400)
+
+原文链接：https://blog.csdn.net/zm13007310400/article/details/77534349
+
+### 9、Class常量池
+
+- 我们写的每一个Java类被编译后，就会形成一份class文件；class文件中除了包含类的版本、字段、方法、接口等描述信息外，还有一项信息就是常量池(constant pool table)，用于存放编译器生成的各种字面量(Literal)和符号引用(Symbolic References)；
+  每个class文件都有一个class常量池。
+
+#### 补充：什么是字面量和符号引用？
+
+- 字面量包括：1.文本字符串 2.八种基本类型的值 3.被声明为final的常量等;
+- 符号引用包括：1.类和方法的全限定名 2.字段的名称和描述符 3.方法的名称和描述符。
+
+转自——[zhuminChosen](https://blog.csdn.net/zm13007310400)
+
+原文链接：https://blog.csdn.net/zm13007310400/article/details/77534349
+
+### 10、运行时常量池
+
+- 运行时常量池存在于内存中，也就是class常量池被加载到内存之后的版本，不同之处是：它的字面量可以动态的添加(String#intern()),符号引用可以被解析为直接引用
+- VM在执行某个类的时候，必须经过加载、连接、初始化，而连接又包括验证、准备、解析三个阶段。而当类加载到内存中后，jvm就会将class常量池中的内容存放到运行时常量池中，由此可知，运行时常量池也是每个类都有一个。在解析阶段，会把符号引用替换为直接引用，解析的过程会去查询字符串常量池，也就是我们上面所说的StringTable，以保证运行时常量池所引用的字符串与字符串常量池中是一致的。
+
+转自——[zhuminChosen](https://blog.csdn.net/zm13007310400)
+
+原文链接：https://blog.csdn.net/zm13007310400/article/details/77534349
+
+## 集合类
+
+### 1、常用集合类的使用总结
+
+#### 1、集合体系结构图
+
+![1、常用集合类的使用总结——集合体系结构图](/Users/GooderYan/Java/Java学习笔记/Java攻城狮成神之路/基础篇/相关图片资料/集合类/1、常用集合类的使用总结——集合体系结构图.png)
+
+#### 2、Collection中的常用功能
+
+| 返回值   | 方法                | 解释                                         |
+| -------- | :------------------ | :------------------------------------------- |
+| boolean  | add(Object e);      | 向集合中添加元素                             |
+| void     | clear();            | 清空集合中的所有元素                         |
+| boolean  | contains(Object o); | 判断集合中是否包含某元素                     |
+| boolean  | isEmpty();          | 判断集合中的元素是否为空                     |
+| boolean  | remove(Object o);   | 根据元素的内容来删除某个元素。               |
+| Object[] | toArray();          | 将集合转换成数组并把集合中的元素存储到数组中 |
+| int      | size();             | 获取集合的长度。                             |
+
+#### 3、迭代器
+
+> Collection集合元素的通用获取方式：在取元素之前先要判断集合中有没有元素，如果有，就把这个元素取出来，继续在判断，如果还有就再取出出来。一直把集合中的所有元素全部取出。这种取出方式专业术语称为迭代。
+
+1. Iterator接口的常用方法
+
+   | 返回值  | 方法       | 解释                                             |
+   | ------- | ---------- | ------------------------------------------------ |
+   | E       | next();    | 用来返回迭代的下一个元素，并把指针向后移动一位。 |
+   | boolean | hasNext(); | 判断集合中是否有元素可以迭代                     |
+
+2. 并发修改异常
+
+   > java.util.ConcurrentModificationExcepiton
+   >
+   > 迭代器是依赖于集合的，相当于集合的一个副本，当迭代器在操作的时候，如果发现和集合不一样，则抛出异常。
+
+   解决方案：
+
+   1. 不使用迭代器遍历集合
+   2. 依然使用迭代器遍历,那么就需要使用Iterator的子接口ListIterator来实现向集合中添加
+
+#### 4、泛型
+
+> 使用集合存储自定义对象并遍历，由于集合可以存储任意类型的对象，当我们存储了不同类型的对象，就有可能在转换的时候出现类型转换异常。
+>
+> 所以java为了解决这个问题，给我们提供了一种机制，叫做泛型。
+
+#### 5、List序列
+
+> List接口：**有序(存储和读取的顺序是一致的), 有整数索引，允许重复**
+
+##### 1、List特有方法
+
+| 返回值 | 方法                                      | 解释                                                         |
+| ------ | ----------------------------------------- | ------------------------------------------------------------ |
+| void   | add(int index, E element);                | 将元素添加到index索引位置上。                                |
+| void   | addAll(int index, Collection collection); | 在指定位置增加给定集合中的所有元素，若省略位置参数，则在当前集合的后面依次添加元素 |
+|        | indexOf(e);                               | 通过指定元素获取其在集合中的位置                             |
+|        | subList(int from,int to);                 | 获取从from到to位置上的元素                                   |
+| E      | get(int index);                           | 根据index索引获取元素。                                      |
+| E      | remove(int index);                        | 根据index索引删除元素。                                      |
+| E      | set(int index, E element);                | 将index索引位置的的元素设置为element。                       |
+
+##### 2、List的常用子类
+
+1. ArrayList：
+
+   - 底层由数组实现
+
+   - 在列表尾部插入或删除数据非常有效
+
+   - 适合查找和更新元素
+
+   - 元素可以为null
+
+   - 访问元素的`get()`方法时间复杂度为常数，因为是直接根据下标索引来访问的
+
+   - 添加元素的`add()`方法时间复杂度为O(n), 因为需要移动元素，将新元素插入到合适的位置。
+
+   - 非线程安全
+
+   - 自动扩容(动态增长)机制：Arraylist是用Object数组实现的，扩容是生成新的数组，再把原来的数组复制过来
+
+     > 1. 得到当前的ArrayList的容量(oldCapacity)。
+     > 2. 计算除扩容后的新容量(newCapacity)，其值$$(oldCapacity + (oldCapacity >>1))$$**约是oldCapacity 的1.5倍**。(这里采用的是移位运算。为什么采用这种方法呢？应该是出于效率的考虑)
+     > 3. 当newCapacity小于所需最小容量，那么将所需最小容量赋值给newCapacity。
+     > 4. newCapacity大于ArrayList的所允许的最大容量,处理。进行数据的复制，完成向ArrayList实例添加元素操作。
+     >
+     > 转自：[gyl-coder](https://www.zhihu.com/people/xian-yu-16-13-50)
+     >
+     > 链接：https://zhuanlan.zhihu.com/p/37500957
+
+2. LinkedList：
+
+   - 其内部实现是使用**双向链表**来保存元素，因此插入与删除元素的性能较好
+   - 提供了操作头部、尾部的方法，因此可以模拟栈、队列、双向队列
+   - 由于是使用链表保存元素的，所以随机访问元素的时候速度会比较慢(需要遍历链表找到目标元素)
+   - 非线程安全
+   - LinkedList特有方法:
+
+   
+
+   JDK1.6之前：
+
+   | 返回值 | 方法          | 解释                                                         |
+   | ------ | ------------- | :----------------------------------------------------------- |
+   | void   | addFirst(E e) | 向链表的头部添加元素                                         |
+   | void   | addLast(E e)  | 向链表的尾部添加元素                                         |
+   | E      | getFirst()    | 获取链头的元素, 若集合中没有元素，则抛出NoSuchElementException |
+   | E      | getLast()     | 获取链尾的元素, 若集合中没有元素，则抛出NoSuchElementException |
+   | E      | removeFirst() | 返回链头的元素并删除链头的元素, 若集合中没有元素，则抛出NoSuchElementException |
+   | E      | removeLast()  | 返回链尾的元素并删除链尾的元素, 若集合中没有元素，则抛出NoSuchElementException |
+
+   JDK1.6之后的替代方法：
+
+   | 返回值 | 方法            | 解释                                                         |
+   | ------ | --------------- | :----------------------------------------------------------- |
+   | void   | offerFirst(E e) | 向链表的头部添加元素                                         |
+   | void   | offerLast(E e)  | 向链表的尾部添加元素                                         |
+   | E      | peekFirst()     | 获取链头的元素, 若集合中没有元素，则返回null                 |
+   | E      | peekLast()      | 获取链尾的元素, 若集合中没有元素，则返回null                 |
+   | E      | pollFirst()     | 返回链头的元素并删除链头的元素, 若集合中没有元素，则返回null |
+   | E      | pollLast()      | 返回链尾的元素并删除链尾的元素, 若集合中没有元素，则返回null |
+
+##### 3、Set集合及其常用子类
+
+1. Set
+
+   > - 可以且只包含一个null元素
+   >
+   > - 无序：存入集合的顺序和取出集合的顺序不一致
+   > - 没有索引
+   > - 不可重复：存入集合的元素没有重复
+
+2. HashSet
+
+   > - 实现了Set接口，内部采用HashMap实现
+   > - 所添加的元素最好重写hasCode() 和 equals()方法
+   > - HashSet元素添加的规则
+   >   - 相等对象，hashCode一定相等。
+   >   - 不等对象，hashCode不一定不相等。
+   >   - 两个对象的hashCode相同，不一定相等。
+   >   - 两个对象的hashCode不同，一定不相等。
+
+   补充：HashSet元素唯一性的原理
+
+   > 通过元素的两个方法hasCode和equals方法来完成的。
+   >
+   > - 如果元素的hashCode的值相同，才会判断equals是否为true。
+   > - 如果元素的hashCode值不相同，就不会调用equals方法。
+
+   补充: hashCode的优化
+
+   > 可以让成员变量的不同对象，hash值也不同，可以减少一部分`equals()`方法的比较。因此，可以让`hascode()`方法的返回值与对象的成员变量相关联。
+
+3. TreeSet
+
+   > 1. 底层的数据结构为二叉树(红黑树)结构
+   > 2. 实现了Comparable接口，该接口强制让增加到集合中的对象进行了比较。因此，可以对Set集合中的元素进行排序。排序需要重写`compareTo()`方法。
+
+   补充：TreeSet元素唯一性的原理
+
+   > 实现的compareTo方法的返回值，是正整数、负整数或零，则两个对象较大、较小或相同。相等时则不会存入。
+
+##### 4、Map集合及其子类
+
+1. Map接口
+
+> Map<K,V>集合是一个接口，和List集合及Set集合不同的是，它是双列集合，并且可以给对象加上名字，即键（Key）
+
+- Map集合的特点
+  - 该集合存储键值对，一对一对往里存
+  - 键唯一，值可重复
+  - 用于处理对应关系的数据
+- 常用方法
+
+| 返回值               | 方法                        | 解释                                                         |
+| -------------------- | --------------------------- | ------------------------------------------------------------ |
+| V                    | put(K key, V value);        | 将key映射到value。若key存在, 返回原value,并覆盖；若key不存在，返回null, 并映射。 |
+| void                 | clear()                     | 清空所有映射关系                                             |
+| boolean              | containsKey(Object key);    | 包含键                                                       |
+| boolean              | cotainsValue(Object value); | 包含值                                                       |
+| boolean              | isEmpty();                  | 判断是否为空                                                 |
+| V                    | remove(Object key);         | 根据指定的key删除其对应关系，并返回value。**失败返回null**   |
+| int                  | size();                     | 获取map中的映射个数                                          |
+| V                    | get(Object key)             | 根据指定的key获取对应的value，**失败返回null**               |
+| Set<K>               | keySet();                   | 获取Map中所有映射关系的key                                   |
+| Collection<V>        | values();                   | 获取Map中所有映射关系的value                                 |
+| Set<Map.Entry<K, V>> | entrySet();                 | 返回一个Set集合，泛型为Map中的内部类Entry                    |
+
+2. HashTable
+
+   > - 底层是哈希表数据结构
+   > - 不可存入null键和null值
+   > - 该集合是线程同步的，效率较低
+
+3. HashMap
+
+   > -  底层是哈希表数据结构
+   > - 允许使用null值和null键
+   > - 该集合是线程同步的，效率较高
+
+4. TreeMap
+
+   > - 底层是二叉树数据结构，线程不同步
+   > - 可以用于给Map集合中的键值进行排序，和Set很像，其实，Set集合的底层就是使用了Map集合
+
+## 2、集合间的区别与总结
+
+1. List接口
+   - List接口对Collection进行了简单的扩充，它的具体实现类常用的有ArrayList和LinkedList。
+   - 可以将任何东西放到一个List容器中，并在需要时从中取出
+   - ArrayList是一种类似数组的形式进行存储，因此它的随机访问速度极快
+   - LinkedList的内部实现是链表，它适合于在链表中间需要频繁进行插入和删除操作
+2. Set接口
+   - 与List不同的是，在Set中的对象元素不能重复
+   - 常用具体实现有HashSet和TreeSet类
+     - HashSet能快速定位一个元素，但存储到HashSet中的对象需要实现hashCode()方法
+     - TreeSet则将放入其中的元素按序存放，这就要求存入其中的对象是可排序的，这就用到了集合框架提供的另外两个实用类Comparable和Comparator
+3. Map接口
+   - Map是一种把键对象和值对象进行关联的容器，而一个值对象又可以是一个Map，依次类推，这样就可形成一个多级映射。
+   - Map容器中的**键对象不允许重复**，这是为了保持查找结果的一致性
+   - 在使用过程中，某个键所对应的值对象可能会发生变化，这时**会按照最后一次修改的值对象与键对应**
+   - 常用具体实现有HashMap和TreeMap类
+     - HashMap也用到了哈希码的算法，以便快速查找一个键
+     - TreeMap则是对键按序存放，因此它便有一些扩展的方法，比如firstKey(),lastKey()等
+
+转自：[玉圣](https://www.jianshu.com/u/65e19270f991)
+
+原文链接：https://www.jianshu.com/p/ab6a0d17822d
+
+## 3、Collections工具类
+
+### 1、Collection与Collections的区别
+
+- Collection是集合体系的最顶层接口，包含了集合体系所有的共性
+- Collections是一个工具类，构造方法私有，其中所有的方法均为静态方法。主要用于服务Collection。
+
+2、Collections的常用方法
+
+| 返回值 | 方法                                 | 解释                                                         |
+| ------ | ------------------------------------ | ------------------------------------------------------------ |
+| void   | swap(List list, int i, int j);       | 将制定列表中的两个元素交换                                   |
+| void   | sort(List list);                     | 将列表元素按自然顺序排序                                     |
+| void   | shuffle(List list);                  | 将列表中的元素随机交换                                       |
+| void   | reverse(List list);                  | 将列表翻转                                                   |
+| void   | fill(List list, Object obj);         | 使用指定的obj对象，将指定的list列表中的元素替换。**注：替换对象必须与列表的泛型一致，且列表中有元素** |
+| void   | copy(List dest, List src);           | 把源列表(src)中的元素覆盖到目标列表(dest)。注：两个列表泛型需一致，dest表的长度需大于src表 |
+| int    | binarySearch(List list, Object key); | 查找指定元素key在list中的位置                                |
+
+## 
 
 
 
